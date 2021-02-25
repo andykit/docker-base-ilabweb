@@ -1,4 +1,4 @@
-FROM php:8-alpine
+FROM php:7-alpine
 
 RUN set -eux; \
   apk add --no-cache --virtual .composer-rundeps \
@@ -18,9 +18,13 @@ RUN set -eux; \
   apk add --no-cache --virtual .build-deps \
     libzip-dev \
     zlib-dev \
+    libwebp-dev \
+    libpng-dev \
+    libxpm-dev \
   ; \
   docker-php-ext-install -j "$(nproc)" \
     zip \
+    gd \
   ; \
   runDeps="$( \
     scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
